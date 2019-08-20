@@ -7,6 +7,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const HTMLWebpackExternalsPlugin = require('html-webpack-externals-plugin')
+
 
 const setMPA = () => {
     const entry = {}
@@ -20,7 +22,6 @@ const setMPA = () => {
             const pageName = match && match[1]
 
             entry[pageName] = entryFile
-            console.log(pageName)
             htmlWebpackPlugins.push(
                 new HtmlWebpackPlugin({
                     template: path.join(__dirname, `src/${pageName}/index.html`),
@@ -124,6 +125,20 @@ module.exports = {
             assetNameRegExp: /\.css$/g,
             cssProcessor: require('cssnano')
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new HTMLWebpackExternalsPlugin({
+            externals: [
+                {
+                    module: 'react',
+                    entry: 'https://11.url.cn/now/lib/16.2.0/react.min.js?_bid=3123',
+                    global: 'React'
+                },
+                {
+                    module: 'react-dom',
+                    entry: 'https://11.url.cn/now/lib/16.2.0/react-dom.min.js?_bid=3123',
+                    global: 'ReactDOM'
+                }
+            ]
+        })
     ].concat(htmlWebpackPlugins)
 }
