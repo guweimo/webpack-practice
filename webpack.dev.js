@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
 module.exports = {
     entry: {
@@ -55,8 +56,12 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new CleanWebpackPlugin(),
+        new FriendlyErrorsWebpackPlugin(),
     ],
     devServer: {
         contentBase: './dist',
-    }
+        host: true,
+        stats: 'errors-only'
+    },
+    devtool: 'cheap-source-map'
 }

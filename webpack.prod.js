@@ -8,7 +8,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HTMLWebpackExternalsPlugin = require('html-webpack-externals-plugin')
-
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
 const setMPA = () => {
     const entry = {}
@@ -61,7 +61,7 @@ module.exports = {
                 test: /.js$/,
                 use: [
                     'babel-loader',
-                    'eslint-loader'
+                    // 'eslint-loader'
                 ]
             },
             {
@@ -129,6 +129,7 @@ module.exports = {
             cssProcessor: require('cssnano')
         }),
         new CleanWebpackPlugin(),
+        new FriendlyErrorsWebpackPlugin(),
         // new HTMLWebpackExternalsPlugin({
         //     externals: [
         //         {
@@ -154,5 +155,6 @@ module.exports = {
                 }
             }
         }
-    }
+    },
+    stats: 'errors-only'
 }
